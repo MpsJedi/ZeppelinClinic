@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zeppelin Dental Clinic</title>
+  <meta name="description" content="Zeppelin Dental Clinic — precision dentistry: therapy, implants, orthodontics, whitening and more.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Zeppelin Dental Clinic">
+  <meta property="og:description" content="Precision dentistry. Timeless smiles.">
+  <meta property="og:image" content="logo.png">
+  <link rel="icon" href="logo-sm.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Oswald:wght@400;500&family=Noto+Serif+Georgian:wght@500;800&family=Noto+Sans+Georgian:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dentist","name":"Zeppelin Dental Clinic","image":"logo.png","openingHours":"Mo-Sa 10:00-19:00","address":{"@type":"PostalAddress","addressLocality":"Tbilisi","addressCountry":"GE"}}</script>
+</head>
+<body>
+<main id="top">
+  <section class="hero">
+    <div class="hero-text">
+      <h1><span data-i18n="h1a"></span> <em data-i18n="h1b"></em></h1>
+      <p class="eyebrow" data-i18n="eyebrow"></p>
+      <div class="cta"><a class="btn" href="#contact" data-i18n="book"></a><a class="btn btn-ghost" href="#services" data-i18n="our_services"></a></div>
+    </div>
+    <div class="badge"><img src="logo.png" alt="" width="400" height="397" fetchpriority="high"></div>
+  </section>
+
+  <section class="strip">
+    <div data-i18n="s1"></div><div data-i18n="s2"></div><div data-i18n="s3"></div>
+  </section>
+
+  <section id="about" class="section about-page">
+    <div>
+      <h2 data-i18n="about_t"></h2>
+      <p id="about-text" class="muted"></p>
+      <a class="btn btn-ghost" id="about-more" href="about.html"></a>
+    </div>
+    <img src="img/clinic.jpg" alt="" class="s-img" width="900" height="600" loading="lazy">
+  </section>
+
+  <section id="services" class="section alt">
+    <h2 data-i18n="services_t"></h2><p class="sub" data-i18n="services_sub"></p>
+    <div class="track" id="services-grid" tabindex="0"></div>
+    <div class="car-nav">
+      <button type="button" id="svc-prev" aria-label="Previous">‹</button>
+      <button type="button" id="svc-next" aria-label="Next">›</button>
+    </div>
+  </section>
+
+  <section id="why" class="section why-sec">
+    <h2 data-i18n="why_t"></h2>
+    <div class="grid" id="why-grid"></div>
+    <h3 class="h3" data-i18n="steps_t"></h3>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <section id="team" class="section alt">
+    <h2 data-i18n="team_t"></h2>
+    <div class="grid team" id="team-grid"></div>
+  </section>
+
+  <section id="branches" class="section alt">
+    <h2 data-i18n="branches_t"></h2>
+    <div class="mapbox">
+      <div class="mapframe">
+        <iframe title="Zeppelin Dental Clinic map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://maps.google.com/maps?q=41.7276333,44.7445099&z=16&output=embed"></iframe>
+        <a class="map-hit" id="map-hit" href="https://www.google.com/maps/dir/?api=1&destination=41.7276333,44.7445099" target="_blank" rel="noopener" aria-label="Directions"></a>
+      </div>
+      <div class="mapinfo">
+        <h3>Zeppelin Dental Clinic</h3>
+        <p data-i18n="loc"></p>
+        <p data-i18n="hours"></p>
+        <a class="btn" id="map-dir" href="https://www.google.com/maps/dir/?api=1&destination=41.7276333,44.7445099" target="_blank" rel="noopener" data-i18n="directions"></a>
+        <a class="btn btn-ghost" href="https://maps.app.goo.gl/wNDuQdtXHcKqBiYXA" target="_blank" rel="noopener" data-i18n="open_maps"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact-sec">
+    <h2 data-i18n="contact_t"></h2><p class="sub" data-i18n="contact_sub"></p>
+    <div class="contact">
+      <form id="form" novalidate>
+        <input name="name" data-ph="f_name" data-aria="f_name" required maxlength="100" autocomplete="name">
+        <input name="phone" data-ph="f_phone" data-aria="f_phone" required maxlength="20" inputmode="tel" type="tel" autocomplete="tel">
+        <select name="service" id="service-select" data-aria="f_service"><option value="" data-i18n="f_service"></option></select>
+        <textarea name="message" rows="3" data-ph="f_msg" data-aria="f_msg" maxlength="500"></textarea>
+        <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit" data-i18n="f_send"></button>
+        <p id="status" role="status"></p>
+      </form>
+      <ul class="info">
+        <li><small>Tel</small><span id="c-phone">—</span></li>
+        <li><small>Email</small><span id="c-email">—</span></li>
+        <li><small data-i18n="hours_l"></small><span data-i18n="hours"></span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<script src="i18n.js"></script>
+<script src="services.js"></script>
+<script src="layout.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
