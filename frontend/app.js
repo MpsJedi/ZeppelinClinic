@@ -23,7 +23,8 @@ Z.onRender((t) => {
   $("steps").innerHTML = t.steps
     .map(([n, h, p]) => `<div class="step"><b>${n}</b><h4>${esc(h)}</h4><p>${esc(p)}</p></div>`).join("");
 
-  const docs = clinic.doctors.length ? clinic.doctors : t.roles.map((r) => ({ name: "", role: {}, _r: r, photo: "" }));
+  const fallbackPhotos = ["img/doctors/tiko.jpg", "img/doctors/soso.jpg", "img/doctors/phati.jpg", "img/doctors/irakli.jpg"];
+  const docs = clinic.doctors.length ? clinic.doctors : t.roles.map((r, i) => ({ name: "", role: {}, _r: r, photo: fallbackPhotos[i % fallbackPhotos.length] }));
   $("team-grid").innerHTML = docs
     .map((d, i) => {
       const name = typeof d.name === "string" ? d.name : (d.name && d.name[lang]) || "";
@@ -31,6 +32,10 @@ Z.onRender((t) => {
       const role = d._r || (d.role && d.role[lang]) || "";
       return `<div class="card"><div class="ph">${photo}</div><h3>${esc(name || t.doctor)}</h3><p>${esc(role)}</p></div>`;
     }).join("");
+
+  $("faq-list").innerHTML = t.faq
+    .map(([q, a], i) => `<details ${i === 0 ? "open" : ""}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`)
+    .join("");
 
 });
 
@@ -61,7 +66,6 @@ addEventListener("pointerup", () => {
   track.scrollTo({ left: target });
 });
 track.addEventListener("dragstart", (e) => e.preventDefault());
-track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
 track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
 const step = () => track.querySelector(".scard").offsetWidth + 20;
 $("svc-prev").addEventListener("click", () => track.scrollBy({ left: -step() }));

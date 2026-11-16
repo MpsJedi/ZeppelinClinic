@@ -16,6 +16,7 @@ function setLink(node, text, href) {
 }
 
 document.body.insertAdjacentHTML("afterbegin", `
+<a class="skip-link" href="#top">Skip to content</a>
 <div class="topbar">
   <ul class="tb-info">
     <li class="tb-tel"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span id="tb-tel"></span></li>
@@ -55,8 +56,24 @@ document.body.insertAdjacentHTML("afterbegin", `
 document.body.insertAdjacentHTML("beforeend", `
 <a class="btn fab" href="index.html#contact" data-i18n="book"></a>
 <footer>
-  <img src="logo-full-sm.png" alt="Zeppelin Dental Clinic" class="foot-logo" width="120" height="120" loading="lazy">
-  <p>© <span id="year"></span> Zeppelin Dental Clinic. <span data-i18n="rights"></span></p>
+  <div class="foot-wrap">
+    <div class="foot-brand">
+      <img src="logo-full-sm.png" alt="Zeppelin Dental Clinic" class="foot-logo" width="120" height="120" loading="lazy">
+      <p class="foot-copy">Zeppelin Dental Clinic</p>
+    </div>
+    <div class="foot-links">
+      <a href="about.html" data-i18n="nav_about"></a>
+      <a href="index.html#services" data-i18n="nav_services"></a>
+      <a href="index.html#team" data-i18n="nav_team"></a>
+      <a href="index.html#contact" data-i18n="nav_contact"></a>
+    </div>
+    <div class="foot-contact">
+      <p><small>Tel</small><span id="foot-tel">—</span></p>
+      <p><small>Email</small><span id="foot-mail">—</span></p>
+      <p><small data-i18n="hours_l"></small><span data-i18n="hours"></span></p>
+    </div>
+  </div>
+  <p class="foot-legal">© <span id="year"></span> Zeppelin Dental Clinic. <span data-i18n="rights"></span></p>
 </footer>`);
 
 function renderAll() {
@@ -75,9 +92,12 @@ function renderAll() {
   const tl = (p) => "tel:" + p.replace(/[^+\d]/g, "");
   $("tb-tel").replaceChildren(...tels.flatMap((p, i) => { const a = document.createElement("a"); a.href = tl(p); a.textContent = p; return i ? [" · ", a] : [a]; }));
   if (tels[0]) { $("hd-tel").href = tl(tels[0]); $("hd-tel-n").textContent = tels[0]; }
+  const footTel = $("foot-tel");
+  if (footTel) footTel.textContent = tels[0] || "—";
+  setLink($("foot-mail"), mail, "mailto:" + mail);
   $("tb-loc").textContent = (c.branches[0] && c.branches[0].address) || t.loc;
   $("tb-loc").style.cursor = "pointer";
-  $("tb-loc").onclick = () => window.open("https://www.google.com/maps/dir/?api=1&destination=41.7276333,44.7445099", "_blank", "noopener");
+  $("tb-loc").onclick = () => window.open("https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi", "_blank", "noopener");
   ["facebook", "instagram", "whatsapp"].forEach((k) => ($("so-" + k).href = (c.social && c.social[k]) || "#", $("so-" + k).hidden = !(c.social && c.social[k])));
   $("dd-list").innerHTML = SERVICES.map((s, i) => `<li><a href="service.html?id=${s.id}">${esc(t.services[i][1])}</a></li>`).join("");
   $("dd-btn").setAttribute("aria-label", t.nav_services);

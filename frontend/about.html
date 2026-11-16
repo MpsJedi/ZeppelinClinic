@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="ka">
+<html lang="ka" data-type="service" data-radius="soft" data-buttons="solid" data-motion="default">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Zeppelin Dental Clinic</title>
+  <meta name="page-type" content="service">
+  <meta name="site-kind" content="other">
+  <meta name="description" content="About Zeppelin Dental Clinic — modern dentistry in Tbilisi.">
   <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Zeppelin Dental Clinic">
+  <meta property="og:description" content="About our team, approach and quality standards.">
+  <meta property="og:image" content="logo.png">
   <link rel="icon" href="logo-sm.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +19,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main>
+<main id="top">
   <section class="pbanner"><div><p class="crumbs" id="crumbs"></p><h1 data-i18n="about_t"></h1></div></section>
   <section class="section about-page">
-    <div class="clinic-gallery" data-clinic-gallery></div>
+    <div class="photo-wall">
+      <img src="img/hero-reception.png" alt="" loading="eager" width="780" height="1170">
+      <img src="img/clinic-photos/01.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/02.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/03.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/04.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/05.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/06.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/07.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/08.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/09.jpg" alt="" loading="lazy" width="1200" height="900">
+      <img src="img/clinic-photos/10.jpg" alt="" loading="lazy" width="1200" height="900">
+    </div>
     <div>
       <h2 id="a-head"></h2>
       <p id="a-text" class="muted"></p>
@@ -26,7 +45,6 @@
 <script src="i18n.js"></script>
 <script src="services.js"></script>
 <script src="layout.js"></script>
-<script src="clinic-gallery.js"></script>
 <script src="about.js"></script>
 </body>
 </html>
