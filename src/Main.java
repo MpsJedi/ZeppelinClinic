@@ -29,7 +29,12 @@ public class Main {
              "social":{"facebook":"https://www.facebook.com/zeppelinclinic","instagram":"https://www.instagram.com/zeppelindentalclinics?cplk=N3YyMzVtNzBkdWU1&utm_source=qr","whatsapp":""},
              "about":{"ka":"","en":"","ru":""},
              "branches":[],
-             "doctors":[]}""";
+             "doctors":[
+               {"name":{"ka":"ირაკლი ჩაჩუა","en":"Irakli Chachua","ru":"Ираклий Чачуа"},"photo":"img/doctors/irakli.jpg","role":{"ka":"ასოცირებული პროფესორი\\nორთოპედ-იმპლანტოლოგი","en":"Associate Professor\\nProsthodontist & Implantologist","ru":"Доцент\\nСтоматолог-ортопед, имплантолог"}},
+               {"name":{"ka":"ფატი შენგელი","en":"Fati Shengeli","ru":"Фати Шенгели"},"photo":"img/doctors/phati.jpg","role":{"ka":"ექიმი-ორთოდონტი","en":"Orthodontist","ru":"Врач-ортодонт"}},
+               {"name":{"ka":"სოსო მიჩიტაშვილი","en":"Soso Michitashvili","ru":"Сосо Мичиташвили"},"photo":"img/doctors/soso.jpg","role":{"ka":"თერაპევტ-ქირურგი","en":"Therapeutic Dentist & Surgeon","ru":"Стоматолог-терапевт и хирург"}},
+               {"name":{"ka":"თიკო ბეჭვაია","en":"Tiko Bechvaia","ru":"Тико Бечвая"},"photo":"img/doctors/tiko.jpg","role":{"ka":"თერაპევტ-სტომატოლოგი","en":"Therapeutic Dentist","ru":"Стоматолог-терапевт"}}
+             ]}""";
 
     public static void main(String[] args) throws IOException {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 8080;

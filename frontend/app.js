@@ -26,9 +26,10 @@ Z.onRender((t) => {
   const docs = clinic.doctors.length ? clinic.doctors : t.roles.map((r) => ({ name: "", role: {}, _r: r, photo: "" }));
   $("team-grid").innerHTML = docs
     .map((d, i) => {
-      const photo = d.photo ? `<img src="${esc(d.photo)}" alt="">` : "Z";
+      const name = typeof d.name === "string" ? d.name : (d.name && d.name[lang]) || "";
+      const photo = d.photo ? `<img class="ph-backdrop" src="${esc(d.photo)}" alt="" aria-hidden="true" loading="lazy"><img class="ph-portrait" src="${esc(d.photo)}" alt="${esc(name || t.doctor)}" loading="lazy">` : "Z";
       const role = d._r || (d.role && d.role[lang]) || "";
-      return `<div class="card"><div class="ph">${photo}</div><h3>${esc(d.name || t.doctor)}</h3><p>${esc(role)}</p></div>`;
+      return `<div class="card"><div class="ph">${photo}</div><h3>${esc(name || t.doctor)}</h3><p>${esc(role)}</p></div>`;
     }).join("");
 
 });
