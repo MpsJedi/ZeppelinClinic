@@ -23,10 +23,10 @@
 <main id="top">
   <section class="hero" data-enter>
     <div class="hero-text">
-      <p class="eyebrow" data-i18n="eyebrow"></p>
+      <p class="eyebrow reveal-up" data-i18n="eyebrow"></p>
       <h1><span data-i18n="h1a"></span> <em data-i18n="h1b"></em></h1>
-      <p class="hero-copy" data-i18n="services_sub"></p>
-      <div class="hero-meta">
+      <p class="hero-copy reveal-up" data-i18n="services_sub"></p>
+      <div class="hero-meta reveal-up">
         <span data-i18n="hours"></span>
         <span data-i18n="loc"></span>
       </div>
@@ -38,17 +38,17 @@
     </div>
   </section>
 
-  <section class="strip">
+  <section class="strip reveal-up">
     <div data-i18n="s1"></div><div data-i18n="s2"></div><div data-i18n="s3"></div>
   </section>
 
   <section id="about" class="section about-page">
-    <div>
+    <div class="reveal-up">
       <h2 data-i18n="about_t"></h2>
       <p id="about-text" class="muted"></p>
       <a class="btn btn-ghost" id="about-more" href="about.html"></a>
     </div>
-    <div class="about-showcase">
+    <div class="about-showcase reveal-up">
       <img src="img/clinic-photos/01.jpg" alt="" loading="lazy" width="1200" height="900">
       <img src="img/clinic-photos/06.jpg" alt="" loading="lazy" width="1200" height="900">
       <img src="img/clinic-photos/09.jpg" alt="" loading="lazy" width="1200" height="900">
@@ -56,11 +56,12 @@
   </section>
 
   <section id="services" class="section alt">
-    <h2 data-i18n="services_t"></h2><p class="sub" data-i18n="services_sub"></p>
-    <div class="track" id="services-grid" tabindex="0"></div>
-    <div class="car-nav">
-      <button type="button" id="svc-prev" aria-label="Previous">‹</button>
-      <button type="button" id="svc-next" aria-label="Next">›</button>
+    <div class="services-head reveal-up">
+      <h2 data-i18n="services_t"></h2>
+      <p class="sub" data-i18n="services_sub"></p>
+    </div>
+    <div class="services-experience" id="services-exp">
+      <div class="services-list" id="services-list"></div>
     </div>
   </section>
 
@@ -72,12 +73,15 @@
   </section>
 
   <section id="team" class="section alt">
-    <h2 data-i18n="team_t"></h2>
-    <div class="grid team" id="team-grid"></div>
+    <div class="team-head reveal-up">
+      <h2 data-i18n="team_t"></h2>
+      <p class="sub">Specialists who combine clinical precision with patient-first care.</p>
+    </div>
+    <div class="team-experience" id="team-exp"></div>
   </section>
 
   <section id="faq" class="section">
-    <div class="faq-layout">
+    <div class="faq-layout reveal-up">
       <div class="faq-intro">
         <h2 data-i18n="faq_t"></h2>
         <p class="sub">Clear answers before your visit.</p>
@@ -89,7 +93,7 @@
 
   <section id="branches" class="section alt">
     <h2 data-i18n="branches_t"></h2>
-    <div class="mapbox">
+    <div class="mapbox reveal-up">
       <div class="mapframe">
         <iframe title="Zeppelin Dental Clinic map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="https://maps.google.com/maps?q=Zeppelin%20Dental%20Clinic%2C%20Tbilisi&z=16&output=embed"></iframe>
@@ -107,7 +111,7 @@
 
   <section id="contact" class="section contact-sec">
     <h2 data-i18n="contact_t"></h2><p class="sub" data-i18n="contact_sub"></p>
-    <div class="contact">
+    <div class="contact reveal-up">
       <form id="form" novalidate>
         <input name="name" data-ph="f_name" data-aria="f_name" required maxlength="100" autocomplete="name">
         <input name="phone" data-ph="f_phone" data-aria="f_phone" required maxlength="20" inputmode="tel" type="tel" autocomplete="tel">

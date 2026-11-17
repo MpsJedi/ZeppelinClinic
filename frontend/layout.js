@@ -1,6 +1,8 @@
 // Shared header, topbar, footer, language and clinic data for every page.
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const MAP_DIRECTIONS_URL = "https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi";
+const SOCIAL_KEYS = ["facebook", "instagram", "whatsapp"];
 const Z = { lang: new URLSearchParams(location.search).get("lang") || localStorage.getItem("lang") || "ka",
   clinic: { phone: "", phone2: "", email: "", about: {}, branches: [], doctors: [], social: {} }, hooks: [],
   onRender(fn) { this.hooks.push(fn); } };
@@ -13,6 +15,17 @@ function setLink(node, text, href) {
   a.href = href;
   a.textContent = text;
   node.append(a);
+}
+
+function telHref(phone) {
+  return "tel:" + phone.replace(/[^+\d]/g, "");
+}
+
+function setSocialLink(platform, href) {
+  const node = $("so-" + platform);
+  const hasLink = Boolean(href);
+  node.href = hasLink ? href : "#";
+  node.hidden = !hasLink;
 }
 
 document.body.insertAdjacentHTML("afterbegin", `
@@ -78,27 +91,35 @@ document.body.insertAdjacentHTML("beforeend", `
 
 function renderAll() {
   const t = I18N[Z.lang], c = Z.clinic;
+  const langButtons = document.querySelectorAll("#lang-list button");
   document.documentElement.lang = Z.lang;
   document.querySelectorAll("[data-i18n]").forEach((n) => (n.textContent = t[n.dataset.i18n]));
   document.querySelectorAll("[data-ph]").forEach((n) => (n.placeholder = t[n.dataset.ph]));
   document.querySelectorAll("[data-aria]").forEach((n) => n.setAttribute("aria-label", t[n.dataset.aria]));
-  document.querySelectorAll("#lang-list button").forEach((b) => {
+  langButtons.forEach((b) => {
     b.classList.toggle("on", b.dataset.l === Z.lang);
     if (b.dataset.l === Z.lang) $("lang-cur").textContent = b.textContent;
   });
   const mail = c.email || "info@zeppelin.ge";
   setLink($("tb-mail"), mail, "mailto:" + mail);
   const tels = [c.phone2, c.phone].filter(Boolean);
-  const tl = (p) => "tel:" + p.replace(/[^+\d]/g, "");
-  $("tb-tel").replaceChildren(...tels.flatMap((p, i) => { const a = document.createElement("a"); a.href = tl(p); a.textContent = p; return i ? [" · ", a] : [a]; }));
-  if (tels[0]) { $("hd-tel").href = tl(tels[0]); $("hd-tel-n").textContent = tels[0]; }
+  $("tb-tel").replaceChildren(...tels.flatMap((p, i) => {
+    const a = document.createElement("a");
+    a.href = telHref(p);
+    a.textContent = p;
+    return i ? [" · ", a] : [a];
+  }));
+  if (tels[0]) {
+    $("hd-tel").href = telHref(tels[0]);
+    $("hd-tel-n").textContent = tels[0];
+  }
   const footTel = $("foot-tel");
   if (footTel) footTel.textContent = tels[0] || "—";
   setLink($("foot-mail"), mail, "mailto:" + mail);
   $("tb-loc").textContent = (c.branches[0] && c.branches[0].address) || t.loc;
   $("tb-loc").style.cursor = "pointer";
-  $("tb-loc").onclick = () => window.open("https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi", "_blank", "noopener");
-  ["facebook", "instagram", "whatsapp"].forEach((k) => ($("so-" + k).href = (c.social && c.social[k]) || "#", $("so-" + k).hidden = !(c.social && c.social[k])));
+  $("tb-loc").onclick = () => window.open(MAP_DIRECTIONS_URL, "_blank", "noopener");
+  SOCIAL_KEYS.forEach((key) => setSocialLink(key, c.social && c.social[key]));
   $("dd-list").innerHTML = SERVICES.map((s, i) => `<li><a href="service.html?id=${s.id}">${esc(t.services[i][1])}</a></li>`).join("");
   $("dd-btn").setAttribute("aria-label", t.nav_services);
   $("year").textContent = new Date().getFullYear();
@@ -109,11 +130,18 @@ const langList = $("lang-list"), langCur = $("lang-cur"), menu = $("menu"), dd =
 const toggleLang = (open) => { langList.hidden = !open; langCur.setAttribute("aria-expanded", open); };
 const setMenu = (open) => {
   menu.classList.toggle("open", open);
-  $("burger").setAttribute("aria-expanded", open);
+  document.body.classList.toggle("menu-open", open);
+  const burger = $("burger");
+  burger.setAttribute("aria-expanded", open);
+  burger.textContent = open ? "×" : "☰";
   if (!open) dd.classList.remove("open");
 };
 langCur.addEventListener("click", (e) => { e.stopPropagation(); toggleLang(langList.hidden); });
 document.addEventListener("click", () => toggleLang(false));
+document.addEventListener("click", (e) => {
+  if (!menu.classList.contains("open")) return;
+  if (!e.target.closest(".nav")) setMenu(false);
+});
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") { toggleLang(false); setMenu(false); } });
 $("burger").addEventListener("click", () => setMenu(!menu.classList.contains("open")));
 $("dd-btn").addEventListener("click", () => {
@@ -121,10 +149,24 @@ $("dd-btn").addEventListener("click", () => {
   $("dd-btn").setAttribute("aria-expanded", open);
 });
 menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("resize", () => {
+  if (window.innerWidth > 900 && menu.classList.contains("open")) setMenu(false);
+});
 document.querySelectorAll("#lang-list button").forEach((b) =>
   b.addEventListener("click", () => { Z.lang = b.dataset.l; localStorage.setItem("lang", Z.lang); toggleLang(false); renderAll(); }));
 
 addEventListener("DOMContentLoaded", () => {
   renderAll();
-  fetch("/api/clinic").then((r) => r.json()).then((c) => { Z.clinic = { ...Z.clinic, ...c }; renderAll(); }).catch(() => {});
+  fetch("/api/clinic")
+    .then((r) => {
+      if (!r.ok) throw new Error("Failed to load clinic info");
+      return r.json();
+    })
+    .then((c) => {
+      Z.clinic = { ...Z.clinic, ...c };
+      renderAll();
+    })
+    .catch((error) => {
+      console.warn("Clinic data fallback is used:", error);
+    });
 });
