@@ -65,6 +65,46 @@
     </div>
   </section>
 
+  <section id="results" class="section results-sec">
+    <div class="results-head reveal-up">
+      <h2 data-i18n="results_t"></h2>
+      <p class="sub" data-i18n="results_sub"></p>
+    </div>
+    <div class="results-tools reveal-up">
+      <p class="results-hint" data-i18n="results_hint"></p>
+    </div>
+    <div class="results-viewport reveal-up">
+      <div class="results-rail" id="results-rail">
+        <article class="result-card"><img src="img/cases/case-01.png" alt="Before and after dental case" loading="lazy" width="1200" height="1800"></article>
+        <article class="result-card"><img src="img/cases/case-02.png" alt="Before and after dental case" loading="lazy" width="1728" height="1152"></article>
+        <article class="result-card"><img src="img/cases/case-03.jpeg" alt="Before and after dental case" loading="lazy" width="1179" height="1452"></article>
+        <article class="result-card"><img src="img/cases/case-04.png" alt="Before and after dental case" loading="lazy" width="1548" height="2005"></article>
+        <article class="result-card"><img src="img/cases/case-05.png" alt="Before and after dental case" loading="lazy" width="1548" height="2005"></article>
+        <article class="result-card"><img src="img/cases/case-06.jpeg" alt="Before and after dental case" loading="lazy" width="1500" height="1500"></article>
+        <article class="result-card"><img src="img/cases/case-07.jpeg" alt="Before and after dental case" loading="lazy" width="1336" height="1336"></article>
+        <article class="result-card"><img src="img/cases/case-08.jpeg" alt="Before and after dental case" loading="lazy" width="1500" height="1500"></article>
+        <article class="result-card"><img src="img/cases/case-09.jpeg" alt="Before and after dental case" loading="lazy" width="1500" height="1500"></article>
+        <article class="result-card"><img src="img/cases/case-10.jpeg" alt="Before and after dental case" loading="lazy" width="1500" height="1500"></article>
+        <article class="result-card"><img src="img/cases/case-11.jpeg" alt="Before and after dental case" loading="lazy" width="1500" height="1500"></article>
+        <article class="result-card"><img src="img/cases/case-12.jpeg" alt="Before and after dental case" loading="lazy" width="1049" height="1049"></article>
+        <article class="result-card"><img src="img/cases/case-13.jpeg" alt="Before and after dental case" loading="lazy" width="1080" height="1080"></article>
+        <article class="result-card"><img src="img/cases/case-14.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-15.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-16.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-17.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-18.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-19.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+        <article class="result-card"><img src="img/cases/case-20.jpeg" alt="Before and after dental case" loading="lazy" width="1124" height="1124"></article>
+      </div>
+    </div>
+    <div class="results-switch-wrap reveal-up">
+      <button class="results-switch" id="results-switch" type="button" data-aria="results_switch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10l-2.6-2.6M17 17H7l2.6 2.6M17 7l-3 3M7 17l3-3"/></svg>
+      </button>
+    </div>
+    <div class="results-progress"><span id="results-progress"></span></div>
+  </section>
+
   <section id="why" class="section why-sec">
     <h2 data-i18n="why_t"></h2>
     <div class="grid" id="why-grid"></div>
@@ -75,7 +115,7 @@
   <section id="team" class="section alt">
     <div class="team-head reveal-up">
       <h2 data-i18n="team_t"></h2>
-      <p class="sub">Specialists who combine clinical precision with patient-first care.</p>
+      <p class="sub" data-i18n="team_sub"></p>
     </div>
     <div class="team-experience" id="team-exp"></div>
   </section>
@@ -84,7 +124,7 @@
     <div class="faq-layout reveal-up">
       <div class="faq-intro">
         <h2 data-i18n="faq_t"></h2>
-        <p class="sub">Clear answers before your visit.</p>
+        <p class="sub" data-i18n="faq_sub"></p>
         <a class="btn btn-ghost" href="#contact" data-i18n="book"></a>
       </div>
       <div class="faq-panel" id="faq-list"></div>
@@ -100,7 +140,7 @@
         <a class="map-hit" id="map-hit" href="https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi" target="_blank" rel="noopener" aria-label="Directions"></a>
       </div>
       <div class="mapinfo">
-        <h3>Zeppelin Dental Clinic</h3>
+        <h3 data-i18n="clinic_name"></h3>
         <p data-i18n="loc"></p>
         <p data-i18n="hours"></p>
         <a class="btn" id="map-dir" href="https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi" target="_blank" rel="noopener" data-i18n="directions"></a>
@@ -122,13 +162,18 @@
         <p id="status" role="status"></p>
       </form>
       <ul class="info">
-        <li><small>Tel</small><span id="c-phone">—</span></li>
-        <li><small>Email</small><span id="c-email">—</span></li>
+        <li><small data-i18n="tel_l"></small><span id="c-phone">—</span></li>
+        <li><small data-i18n="email_l"></small><span id="c-email">—</span></li>
         <li><small data-i18n="hours_l"></small><span data-i18n="hours"></span></li>
       </ul>
     </div>
   </section>
 </main>
+
+<dialog id="results-lightbox" class="results-lightbox" aria-label="Photo preview">
+  <button class="results-lightbox-close" id="results-lightbox-close" type="button" data-aria="results_close">×</button>
+  <img id="results-lightbox-img" src="" alt="">
+</dialog>
 
 <script src="i18n.js"></script>
 <script src="services.js"></script>

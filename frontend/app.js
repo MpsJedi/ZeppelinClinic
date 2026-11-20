@@ -58,7 +58,7 @@ function renderServices(t) {
       <p class="svc-num">0${i + 1}</p>
       <h3>${esc(title)}</h3>
       <p>${esc(desc)}</p>
-      <a class="svc-link" href="service.html?id=${serviceId(i)}">Explore service</a>
+      <a class="svc-link" href="service.html?id=${serviceId(i)}">${esc(t.explore_service)}</a>
       </div>
     </article>`).join("");
 }
@@ -78,7 +78,7 @@ function renderTeam(t, clinic, lang) {
   team.innerHTML = `
     <div class="team-stage reveal-up">
       <div class="team-left">
-        <p class="team-main-kicker">Dr.</p>
+        <p class="team-main-kicker">${esc(t.dr_short)}</p>
         <h3 id="team-main-name">${esc(name)}</h3>
         <p id="team-main-role">${esc(role)}</p>
       </div>
@@ -86,11 +86,11 @@ function renderTeam(t, clinic, lang) {
         <img src="${esc(photo)}" alt="${esc(name)}" class="team-main-photo" id="team-main-photo" loading="lazy">
       </div>
       <div class="team-main-copy" id="team-main-desc">${esc(description)}</div>
-      <div class="team-controls" role="group" aria-label="Doctor navigation">
-        <button class="team-nav" id="team-prev" type="button" aria-label="Previous doctor">
+      <div class="team-controls" role="group" aria-label="${esc(t.team_nav)}">
+        <button class="team-nav" id="team-prev" type="button" aria-label="${esc(t.team_prev)}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.500 6.500 9 12l5.500 5.500"/></svg>
         </button>
-        <button class="team-nav" id="team-next" type="button" aria-label="Next doctor">
+        <button class="team-nav" id="team-next" type="button" aria-label="${esc(t.team_next)}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.500 6.500 15 12l-5.500 5.500"/></svg>
         </button>
       </div>
@@ -106,6 +106,7 @@ function renderTeam(t, clinic, lang) {
   const prev = $("team-prev");
   const next = $("team-next");
   let swapTimer = null;
+  let swapToken = 0;
   let startX = null;
   let startY = null;
 
@@ -123,16 +124,38 @@ function renderTeam(t, clinic, lang) {
       mainName.textContent = dName;
       mainRole.textContent = dRole;
       mainDesc.textContent = dDescription;
-      stage.classList.remove("is-swapping");
     };
 
     if (!animate || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      swapToken += 1;
+      if (swapTimer) {
+        clearTimeout(swapTimer);
+        swapTimer = null;
+      }
+      stage.classList.remove("is-swapping");
       commit();
       return;
     }
+
+    const token = ++swapToken;
     stage.classList.add("is-swapping");
+
+    const finishSwap = () => {
+      if (token !== swapToken) return;
+      stage.classList.remove("is-swapping");
+      if (swapTimer) {
+        clearTimeout(swapTimer);
+        swapTimer = null;
+      }
+      mainPhoto.removeEventListener("load", finishSwap);
+      mainPhoto.removeEventListener("error", finishSwap);
+    };
+
+    mainPhoto.addEventListener("load", finishSwap);
+    mainPhoto.addEventListener("error", finishSwap);
+    commit();
     if (swapTimer) clearTimeout(swapTimer);
-    swapTimer = setTimeout(commit, SWAP_ANIMATION_MS);
+    swapTimer = setTimeout(finishSwap, SWAP_ANIMATION_MS + 260);
   };
 
   if (prev) {
@@ -187,6 +210,171 @@ function renderFaq(t) {
     .join("");
 }
 
+function initResultsRail() {
+  const rail = $("results-rail");
+  if (!rail || rail.dataset.ready === "1") return;
+
+  const switchBtn = $("results-switch");
+  const progress = $("results-progress");
+  const lightbox = $("results-lightbox");
+  const lightboxImg = $("results-lightbox-img");
+  const lightboxClose = $("results-lightbox-close");
+  const caseImages = Array.from(rail.querySelectorAll(".result-card img"));
+  let lightboxIndex = -1;
+
+  const step = () => {
+    const card = rail.querySelector(".result-card");
+    if (!card) return rail.clientWidth * 0.9;
+    const gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap || "14") || 14;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const updateControls = () => {
+    const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    const ratio = max === 0 ? 1 : rail.scrollLeft / max;
+    if (progress) progress.style.width = (12 + ratio * 88).toFixed(2) + "%";
+  };
+
+  const scrollNext = () => {
+    const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    const nextLeft = rail.scrollLeft + step();
+    if (nextLeft >= max - 8) {
+      rail.scrollTo({ left: 0, behavior: "smooth" });
+      return;
+    }
+    rail.scrollBy({ left: step(), behavior: "smooth" });
+  };
+
+  if (switchBtn) switchBtn.addEventListener("click", scrollNext);
+
+  let activePointerId = null;
+  let startX = 0;
+  let startLeft = 0;
+  let startImg = null;
+  let moved = false;
+
+  rail.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    activePointerId = event.pointerId;
+    startX = event.clientX;
+    startLeft = rail.scrollLeft;
+    startImg = event.target.closest(".result-card img");
+    moved = false;
+    rail.style.cursor = "grabbing";
+    rail.setPointerCapture(event.pointerId);
+  });
+
+  rail.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== activePointerId) return;
+    const dx = event.clientX - startX;
+    if (Math.abs(dx) > 5) moved = true;
+    rail.scrollLeft = startLeft - dx;
+  });
+
+  const openLightboxAt = (idx) => {
+    if (!lightbox || !lightboxImg || idx < 0 || idx >= caseImages.length) return;
+    lightboxIndex = idx;
+    const img = caseImages[idx];
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt || "";
+    if (typeof lightbox.showModal === "function") {
+      lightbox.showModal();
+    } else {
+      lightbox.setAttribute("open", "");
+    }
+  };
+
+  rail.addEventListener("pointerup", (event) => {
+    if (event.pointerId !== activePointerId) return;
+    const shouldOpen = !moved && startImg;
+    activePointerId = null;
+    rail.style.cursor = "";
+    if (shouldOpen) {
+      openLightboxAt(caseImages.indexOf(startImg));
+    }
+    startImg = null;
+  });
+
+  rail.addEventListener("pointercancel", () => {
+    activePointerId = null;
+    rail.style.cursor = "";
+    startImg = null;
+  });
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener("click", () => {
+      if (!lightbox) return;
+      if (typeof lightbox.close === "function") {
+        lightbox.close();
+      } else {
+        lightbox.removeAttribute("open");
+      }
+    });
+  }
+
+  const isLightboxOpen = () => Boolean(lightbox && lightbox.hasAttribute("open"));
+  const showPrev = () => {
+    if (!isLightboxOpen() || caseImages.length < 2) return;
+    const nextIdx = (lightboxIndex - 1 + caseImages.length) % caseImages.length;
+    openLightboxAt(nextIdx);
+  };
+  const showNext = () => {
+    if (!isLightboxOpen() || caseImages.length < 2) return;
+    const nextIdx = (lightboxIndex + 1) % caseImages.length;
+    openLightboxAt(nextIdx);
+  };
+
+  if (lightbox) {
+    lightbox.addEventListener("click", (event) => {
+      if (event.target !== lightbox) return;
+      if (typeof lightbox.close === "function") {
+        lightbox.close();
+      } else {
+        lightbox.removeAttribute("open");
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (!isLightboxOpen()) return;
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showNext();
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPrev();
+    }
+  });
+
+  if (lightboxImg) {
+    let lbPointer = null;
+    let lbStartX = 0;
+    lightboxImg.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      lbPointer = event.pointerId;
+      lbStartX = event.clientX;
+      lightboxImg.setPointerCapture(event.pointerId);
+    });
+    lightboxImg.addEventListener("pointerup", (event) => {
+      if (event.pointerId !== lbPointer) return;
+      const dx = event.clientX - lbStartX;
+      lbPointer = null;
+      if (Math.abs(dx) < 44) return;
+      if (dx < 0) showNext();
+      else showPrev();
+    });
+    lightboxImg.addEventListener("pointercancel", () => {
+      lbPointer = null;
+    });
+  }
+
+  rail.addEventListener("scroll", updateControls, { passive: true });
+  window.addEventListener("resize", updateControls);
+  rail.dataset.ready = "1";
+  updateControls();
+}
+
 function initReveal() {
   if (!("IntersectionObserver" in window)) return;
   const items = document.querySelectorAll(".reveal-up");
@@ -225,6 +413,7 @@ Z.onRender((t) => {
   renderSteps(t);
   renderTeam(t, clinic, lang);
   renderFaq(t);
+  initResultsRail();
   initReveal();
 });
 

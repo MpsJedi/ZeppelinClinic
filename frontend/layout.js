@@ -29,7 +29,7 @@ function setSocialLink(platform, href) {
 }
 
 document.body.insertAdjacentHTML("afterbegin", `
-<a class="skip-link" href="#top">Skip to content</a>
+<a class="skip-link" href="#top" data-i18n="skip_to_content"></a>
 <div class="topbar">
   <ul class="tb-info">
     <li class="tb-tel"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span id="tb-tel"></span></li>
@@ -45,7 +45,7 @@ document.body.insertAdjacentHTML("afterbegin", `
 </div>
 <header class="nav">
   <a class="brand" href="index.html"><img src="logo-sm.png" alt="" width="46" height="46"><span>Zeppelin<small>Dental Clinic</small></span></a>
-  <nav id="menu" aria-label="Main">
+  <nav id="menu" aria-label="Main" data-menu-label="">
     <a href="about.html" data-i18n="nav_about"></a>
     <div class="dd" id="dd">
       <a href="index.html#services" data-i18n="nav_services"></a>
@@ -57,13 +57,13 @@ document.body.insertAdjacentHTML("afterbegin", `
   </nav>
   <a class="hd-tel" id="hd-tel" href="#"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span><small data-i18n="call"></small><b id="hd-tel-n"></b></span></a>
   <div class="lang" id="lang">
-    <button class="cur" id="lang-cur" aria-label="Language" aria-haspopup="true" aria-expanded="false" aria-controls="lang-list">GEO</button>
+    <button class="cur" id="lang-cur" data-aria="language_label" aria-haspopup="true" aria-expanded="false" aria-controls="lang-list">GEO</button>
     <ul id="lang-list" hidden>
       <li><button data-l="ka">GEO</button></li><li><button data-l="en">ENG</button></li><li><button data-l="ru">RUS</button></li>
     </ul>
   </div>
   <a class="btn btn-sm" href="index.html#contact" data-i18n="book"></a>
-  <button class="burger" id="burger" aria-label="Menu" aria-controls="menu" aria-expanded="false">☰</button>
+  <button class="burger" id="burger" data-aria="menu_label" aria-controls="menu" aria-expanded="false">☰</button>
 </header>`);
 
 document.body.insertAdjacentHTML("beforeend", `
@@ -81,8 +81,8 @@ document.body.insertAdjacentHTML("beforeend", `
       <a href="index.html#contact" data-i18n="nav_contact"></a>
     </div>
     <div class="foot-contact">
-      <p><small>Tel</small><span id="foot-tel">—</span></p>
-      <p><small>Email</small><span id="foot-mail">—</span></p>
+      <p><small data-i18n="tel_l"></small><span id="foot-tel">—</span></p>
+      <p><small data-i18n="email_l"></small><span id="foot-mail">—</span></p>
       <p><small data-i18n="hours_l"></small><span data-i18n="hours"></span></p>
     </div>
   </div>
@@ -101,6 +101,7 @@ function renderAll() {
     if (b.dataset.l === Z.lang) $("lang-cur").textContent = b.textContent;
   });
   const mail = c.email || "info@zeppelin.ge";
+  $("menu").dataset.menuLabel = t.menu_label;
   setLink($("tb-mail"), mail, "mailto:" + mail);
   const tels = [c.phone2, c.phone].filter(Boolean);
   $("tb-tel").replaceChildren(...tels.flatMap((p, i) => {
