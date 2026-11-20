@@ -1,4 +1,5 @@
 // Shared header, topbar, footer, language and clinic data for every page.
+document.documentElement.classList.add("js");
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const MAP_DIRECTIONS_URL = "https://www.google.com/maps/dir/?api=1&destination=Zeppelin%20Dental%20Clinic%2C%20Tbilisi";

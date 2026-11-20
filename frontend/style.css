@@ -144,12 +144,13 @@ img{max-width:100%;display:block}
   background:radial-gradient(circle at 40% 36%,rgba(26,127,184,.16),transparent 55%);
   z-index:-1;
 }
-.hero-text>*{opacity:0;transform:translateY(14px);animation:hero-enter .7s cubic-bezier(.2,.65,.25,1) forwards}
-.hero-text .eyebrow{animation-delay:.08s}
-.hero-text h1{animation-delay:.16s}
-.hero-text .hero-copy{animation-delay:.2s}
-.hero-text .hero-meta{animation-delay:.24s}
-.hero-text .cta{animation-delay:.24s}
+.hero-text>*{opacity:1;transform:none}
+html.js .hero-text>*{opacity:0;transform:translateY(14px);animation:hero-enter .7s cubic-bezier(.2,.65,.25,1) forwards}
+html.js .hero-text .eyebrow{animation-delay:.08s}
+html.js .hero-text h1{animation-delay:.16s}
+html.js .hero-text .hero-copy{animation-delay:.2s}
+html.js .hero-text .hero-meta{animation-delay:.24s}
+html.js .hero-text .cta{animation-delay:.24s}
 @keyframes hero-enter{to{opacity:1;transform:none}}
 
 .eyebrow{
@@ -234,10 +235,11 @@ img{max-width:100%;display:block}
 .section>h2,.section>.sub,.section>.grid,.section>.track,.section>.car-nav,.section>.mapbox,.section>.contact,.section>.about-page,.section>.sdetail,.section>.h3,.section>.steps,.section>article,.section>aside{
   max-width:var(--content-max);margin-left:auto;margin-right:auto;
 }
-.reveal-up{
+.reveal-up{opacity:1;transform:none}
+html.js .reveal-up{
   opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.65,.25,1),transform .6s cubic-bezier(.2,.65,.25,1);
 }
-.reveal-up.in-view{opacity:1;transform:none}
+html.js .reveal-up.in-view{opacity:1;transform:none}
 
 .about-page{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:42px}
 .about-page>div:last-child{
@@ -811,5 +813,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition:none!important;animation:none!important}
+  .hero-text>*{opacity:1!important;transform:none!important}
+  .reveal-up{opacity:1!important;transform:none!important}
   .hero h1 span,.hero h1 em{clip-path:none}
 }
